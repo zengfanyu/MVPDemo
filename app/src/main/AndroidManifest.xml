@@ -12,14 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.LoginActivity">
-
-        </activity>
-        <activity android:name=".LoginSuccessActivity"/>
-        <activity android:name=".view.LatestViewActivity">
-
-        </activity>
-        <activity android:name=".view.BaseViewActivity">
+        <activity android:name=".view.LatestNewsTitleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

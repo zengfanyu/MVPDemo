@@ -15,24 +15,24 @@ import android.widget.TextView;
 
 import com.project.fanyuzeng.mvpdemo.R;
 import com.project.fanyuzeng.mvpdemo.adapter.LatestNewsAdapter;
-import com.project.fanyuzeng.mvpdemo.presenter.LatesNewsFromBase;
+import com.project.fanyuzeng.mvpdemo.presenter.LatestNewsPresenter;
 import com.project.fanyuzeng.mvpdemo.response.LatestNews;
 
 import java.util.List;
 
 /**
- * Created by fanyuzeng on 2017/10/20.
+ * @author ZengFanyu on 2017/10/20.
  * Function:
  */
-public class BaseViewActivity extends AppCompatActivity implements ILatestNewsView {
+public class LatestNewsTitleActivity extends AppCompatActivity implements ILatestNewsView {
     private ListView mListView;
     private Context mContext;
     private Button mBtnLatestNews;
     private ProgressBar mProgressBar;
     private TextView mTip;
     private TextView mErrorContent;
-    private RelativeLayout mSuccesscontent;
-    private LatesNewsFromBase mBasePresenter;
+    private RelativeLayout mSuccessContent;
+    private LatestNewsPresenter mBasePresenter;
     Handler mHandler=new Handler(Looper.getMainLooper());
 
     @Override
@@ -41,10 +41,10 @@ public class BaseViewActivity extends AppCompatActivity implements ILatestNewsVi
         setContentView(R.layout.activity_base_view);
         mContext = this;
 
-        mBasePresenter = new LatesNewsFromBase(this, LatestNews.class);
+        mBasePresenter = new LatestNewsPresenter(this, LatestNews.class);
 
 
-        mSuccesscontent = (RelativeLayout) findViewById(R.id.id_success_content);
+        mSuccessContent = (RelativeLayout) findViewById(R.id.id_success_content);
         mErrorContent = (TextView) findViewById(R.id.id_error_content);
         mTip = (TextView) findViewById(R.id.id_tip);
         mListView = (ListView) findViewById(R.id.id_list_view);
@@ -64,10 +64,12 @@ public class BaseViewActivity extends AppCompatActivity implements ILatestNewsVi
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (isShow)
+                if (isShow){
                     mProgressBar.setVisibility(View.VISIBLE);
-                else
+                }
+                else{
                     mProgressBar.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -88,12 +90,12 @@ public class BaseViewActivity extends AppCompatActivity implements ILatestNewsVi
     @Override
     public void showSuccess(boolean isSuccess) {
         if (isSuccess) {
-            mSuccesscontent.setVisibility(View.VISIBLE);
+            mSuccessContent.setVisibility(View.VISIBLE);
             mErrorContent.setVisibility(View.GONE);
             mBtnLatestNews.setVisibility(View.VISIBLE);
 
         } else {
-            mSuccesscontent.setVisibility(View.GONE);
+            mSuccessContent.setVisibility(View.GONE);
             mErrorContent.setVisibility(View.VISIBLE);
             mBtnLatestNews.setVisibility(View.GONE);
         }

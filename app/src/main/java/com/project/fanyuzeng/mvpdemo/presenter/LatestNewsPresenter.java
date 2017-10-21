@@ -2,36 +2,35 @@ package com.project.fanyuzeng.mvpdemo.presenter;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.project.fanyuzeng.mvpdemo.AppManager;
+import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.response.LatestNews;
-import com.project.fanyuzeng.mvpdemo.model.IRequestLatestModel;
-import com.project.fanyuzeng.mvpdemo.model.RequestLatestNewsModel;
 import com.project.fanyuzeng.mvpdemo.view.ILatestNewsView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fanyuzeng on 2017/10/20.
- * Function:
+ * @author：ZengFanyu .
+ * @date：2017/10/20
+ * @description:
  */
-public class LatestNewsPresenter implements ILatestNewsPresenter {
+public class LatestNewsPresenter extends BasePresenter<Nullable, LatestNews> {
     private static final String TAG = "LatestNewsPresenter";
-
-    private IRequestLatestModel mDataServer;
-    private ILatestNewsView mLatestNewsView;
+    private ILatestNewsView mBaseView;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public LatestNewsPresenter(ILatestNewsView latestNewsView) {
-        mLatestNewsView = latestNewsView;
-        mDataServer = new RequestLatestNewsModel(this);
+    public LatestNewsPresenter(ILatestNewsView baseView, Class<LatestNews> clazz) {
+        super(baseView, clazz);
+        mBaseView = baseView;
+        getModel().setRequestUrl(Constants.LATEST_NEWS);
+
     }
 
     @Override
-    public void handleData(String jsonData) {
-        LatestNews latestNews = AppManager.getGson().fromJson(jsonData, LatestNews.class);
+    public void serverResponse(LatestNews latestNews) {
         if (latestNews != null) {
             final List<String> titles = new ArrayList<>();
             List<LatestNews.StoriesBean> stories = latestNews.getStories();
@@ -42,7 +41,8 @@ public class LatestNewsPresenter implements ILatestNewsPresenter {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mLatestNewsView.showLatestViewTitle(titles);
+                        mBaseView.showLatestViewTitle(titles);
+                        mBaseView.showProgress(false);
 
                     }
                 });
@@ -50,10 +50,6 @@ public class LatestNewsPresenter implements ILatestNewsPresenter {
         } else {
             Log.d(TAG, ">> handleData >> " + "latestNews is null");
         }
-    }
 
-    @Override
-    public void getDataFromServer() {
-        mDataServer.requestLatestNews();
     }
 }

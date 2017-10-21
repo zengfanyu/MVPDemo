@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by fanyuzeng on 2017/10/20.
- * Function:
+ * Description: JavaBean  的基类 Data 就是某一特有的 JavaBean
  */
 public class BaseResponse<Data> {
 

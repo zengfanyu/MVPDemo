@@ -1,12 +1,11 @@
 package com.project.fanyuzeng.mvpdemo.model;
 
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.presenter.IBasePresenter;
 import com.project.fanyuzeng.mvpdemo.utils.HttpUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -18,44 +17,37 @@ import okhttp3.Response;
  * Created by fanyuzeng on 2017/10/20.
  * Function:
  */
-public class BaseModel implements IBaseModel {
+public class LatestNewsModel implements IBaseModel {
     private static final String TAG = "ReqLaNewModelFromBase";
     private String url;
-    private int method; //默认为Get方式
+    //默认为Get方式 ，根据这个参数来区别不同方式的请求
+    private int method;
     private IBasePresenter mBasePresenter;
 
-    public BaseModel(IBasePresenter basePresenter) {
+    public LatestNewsModel(IBasePresenter basePresenter) {
         mBasePresenter = basePresenter;
     }
 
     @Override
     public void sendRequestToServer() {
+
         HttpUtils.executeByGet(url, new Callback() {
-
-
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d(TAG, ">> onFailure >> ");
                 e.printStackTrace();
+                mBasePresenter.okHttpError(Constants.URL_ERROR,e.getMessage(),url);
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.d(TAG, ">> onResponse >> " + "Not successful");
-                }
-                String mLatestNewsJson = null;
-                JSONObject JOResponse = null;
+                    mBasePresenter.okHttpError(Constants.SERVER_ERROR,response.message(),url);
 
-                try {
-                    mLatestNewsJson = response.body().string();
-                    JOResponse = new JSONObject(mLatestNewsJson);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                if (JOResponse != null) {
-                    // TODO: 2017/10/20 此处传递过去的是stories的数组
-                    mBasePresenter.requestSuccess(JOResponse);
+                String mLatestNewsJson = response.body().string();
+                if (!TextUtils.isEmpty(mLatestNewsJson)) {
+                    mBasePresenter.requestSuccess(mLatestNewsJson);
                 }
             }
         });
