@@ -6,6 +6,8 @@
 
     <TextView
         android:id="@+id/id_tip"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,17 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/id_error_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="@android:color/holo_red_dark"
-        android:text="Not get data"
-        android:textColor="@android:color/black"
-        android:textSize="28sp"
         android:visibility="gone"/>
 
 </RelativeLayout>

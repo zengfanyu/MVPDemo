@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.fanyuzeng.mvpdemo.PullLoadRecyclerView;
 import com.project.fanyuzeng.mvpdemo.R;
@@ -33,8 +32,7 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
     private Context mContext;
     private ProgressBar mProgressBar;
     private TextView mTip;
-    private TextView mErrorContent;
-    private RelativeLayout mSuccessContent;
+    private RelativeLayout mContainer;
     private AlbumPresenter mAlbumPresenter;
     private BasePeginationParam mParam;
     private VideoInfoAdapter mAdapter;
@@ -51,8 +49,7 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
 
         mParam = new BasePeginationParam(1, 10); //此处值可以有用户输入或者其他途径获得
 
-        mSuccessContent = (RelativeLayout) findViewById(R.id.id_success_content);
-        mErrorContent = (TextView) findViewById(R.id.id_error_content);
+        mContainer = (RelativeLayout) findViewById(R.id.id_success_content);
         mTip = (TextView) findViewById(R.id.id_tip);
         mProgressBar = (ProgressBar) findViewById(R.id.id_progress_bar);
 
@@ -69,7 +66,6 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
                 mIsFromRefresh = true;
                 mParam.setPageIndex(1);
                 mAlbumPresenter.refresh(mParam);
-                Log.d(TAG, ">> onRefresh >> " + "param.index:" + mParam.getPageIndex() + ",param.size:" + mParam.getPageSize());
                 mRecyclerView.setRefreshCompleted();
             }
 
@@ -145,24 +141,25 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
     }
 
     @Override
-    public void showSuccess(boolean isSuccess) {
-        if (isSuccess) {
-            mSuccessContent.setVisibility(View.VISIBLE);
-            mErrorContent.setVisibility(View.GONE);
+    public void showSuccess(final boolean isSuccess) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isSuccess) {
+                    mContainer.setBackgroundResource(android.R.color.white);
+                    mTip.setText("Sohu Serials album");
 
-        } else {
-            mSuccessContent.setVisibility(View.GONE);
-            mErrorContent.setVisibility(View.VISIBLE);
-        }
+                } else {
+                    mContainer.setBackgroundResource(R.color.colorAccent);
+                }
+            }
+        });
+
     }
 
 
     @Override
-    public void refreshLayout(List<VideoInfo> albumList) {
-        mAdapter = null;
-        mAdapter = new VideoInfoAdapter(mContext, albumList);
-        mRecyclerView.setLinearLayout();
-        mRecyclerView.setAdapter(mAdapter);
-        Toast.makeText(mContext, "已刷新", Toast.LENGTH_SHORT).show();
+    public boolean hasNextPage() {
+        return false;
     }
 }

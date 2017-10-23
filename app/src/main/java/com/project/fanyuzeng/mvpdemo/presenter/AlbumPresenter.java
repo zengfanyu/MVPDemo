@@ -18,9 +18,8 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePeginationParam,
     public AlbumPresenter(ISOHUSerials baseListView, Class<Album> CLazz) {
         super(baseListView, CLazz);
         this.mBaseListView = baseListView;
+        getModel().setRequestMethod(Constants.HTTP_GET_METHOD);
         getModel().setRequestUrl(Constants.SOHU_SERIALS_URL);
-
-
     }
 
     @Override

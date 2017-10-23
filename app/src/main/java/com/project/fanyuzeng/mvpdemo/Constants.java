@@ -14,4 +14,6 @@ public class Constants {
             "?cid=2&o=1&plat=6&poid=1&api_key=9854b2afa779e1a6bff1962447a09dbd&" +
             "sver=6.2.0&sysver=4.4.2&partner=47&page=%s&page_size=%s";
     public static final int COUNT = 10;
+    public static final int HTTP_GET_METHOD = 1;
+    public static final int HTTP_POST_METHOD = 2;
 }

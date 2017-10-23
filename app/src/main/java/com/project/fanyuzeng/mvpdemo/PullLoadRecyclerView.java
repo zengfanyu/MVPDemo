@@ -158,6 +158,7 @@ public class PullLoadRecyclerView extends LinearLayout {
     public void setRefreshCompleted() {
         mIsRefresh = false;
         setRefreshing(false);
+        Toast.makeText(mContext, "已刷新", Toast.LENGTH_SHORT).show();
     }
 
     //设置是否正在刷新
