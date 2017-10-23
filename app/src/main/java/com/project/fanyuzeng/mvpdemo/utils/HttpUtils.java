@@ -12,7 +12,7 @@ import okhttp3.Request;
  */
 public class HttpUtils {
     public static final String GET_LATEST_NEWS = "get_latest_news";
-    private static Call sLatestNewsCall;
+    private static Call sCall;
 
     private static Request buildGetRequest(String url) {
         return new Request.Builder()
@@ -28,12 +28,12 @@ public class HttpUtils {
     }
 
     private static void executeByGet(Request request, Callback callback) {
-        sLatestNewsCall = AppManager.getOkHttpClient().newCall(request);
-        sLatestNewsCall.enqueue(callback);
+        sCall = AppManager.getOkHttpClient().newCall(request);
+        sCall.enqueue(callback);
     }
 
-    public static void cancelLatestNewsCall() {
-        sLatestNewsCall.cancel();
+    public static void cancelCall() {
+        sCall.cancel();
     }
 
 }

@@ -1,22 +1,18 @@
 package com.project.fanyuzeng.mvpdemo.presenter;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.project.fanyuzeng.mvpdemo.model.BaseModel;
 import com.project.fanyuzeng.mvpdemo.model.IBaseModel;
-import com.project.fanyuzeng.mvpdemo.response.BaseResponse;
+import com.project.fanyuzeng.mvpdemo.model.LatestNewsModel;
 import com.project.fanyuzeng.mvpdemo.view.IBaseView;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
 /**
- * Created by fanyuzeng on 2017/10/20.
- * Function:
+ * @author：ZengFanyu .
+ * @date：2017/10/20
+ * @description: 其他presenter类的基类，实现了基本的presenter层方法
  */
 public abstract class BasePresenter<Params, Data> implements IBasePresenter<Params> {
 
@@ -26,12 +22,19 @@ public abstract class BasePresenter<Params, Data> implements IBasePresenter<Para
     private Params params;
     private Class<Data> clazz;
 
-
+    /**
+     * 用于接收model层返回的数据，并且进行处理了之后，回调到view层
+     *
+     * @param data 泛型参数，在子类中指定，JavaBean类型
+     * @return void
+     * @author ZengFanyu
+     * @created at 2017/10/21/021 16:58
+     */
     public abstract void serverResponse(Data data);
 
-    public BasePresenter(IBaseView baseView, Class<Data> clazz) {
+    BasePresenter(IBaseView baseView, Class<Data> clazz) {
         mBaseView = baseView;
-        mBaseModel = new BaseModel(this);
+        mBaseModel = new LatestNewsModel(this);
         this.clazz = clazz;
 
     }
@@ -40,37 +43,18 @@ public abstract class BasePresenter<Params, Data> implements IBasePresenter<Para
     public void requestServer(@Nullable Params param) {
         this.params = param;
         mBaseView.showProgress(true);
-        getModel().sendRequestToServer();
+        getModel().sendRequestToServer(param);
     }
 
     @Override
-    public void requestSuccess(JSONObject response) {
+    public void accessSuccess(String responseJson) {
         mBaseView.showProgress(false);
         Gson gson = new Gson();
-        BaseResponse<Data> mResponse=gson.fromJson(String.valueOf(response)
-                ,new TypeToken<BaseResponse<Data>>() {}.getType());
-
-     /*   if (clazz != null) {
-            ParameterizedType parameterized = ClassTypeUtil.type(BaseResponse.class, clazz);
-            Type type = $Gson$Types.canonicalize(parameterized);
-            mResponse = gson.fromJson(String.valueOf(response), type);
-        } else {
-            mResponse = gson.fromJson(String.valueOf(response), BaseResponse.class);
-        }*/
-
-
-        /**
-         * 在实际设计系统的时候，通过状态码来判断服务器是否正确响应
-         * 如果响应错误，可以在这里直接通知view层错误情况
-         * 以下为根据百度api的数据格式设计的回调处理
-         * errorNum = 0 时，响应成功
-         */
-
-//        if (mResponse.errorNum == 0) {
-        Log.d(TAG,">> requestSuccess >> " + mResponse.data.toString());
-        // TODO: 2017/10/20 传递到了此处
-        serverResponse(mResponse.data);
-            mBaseView.showSuccess(true);
+        Data data = gson.fromJson(responseJson, clazz);
+//        if (errorNum == 0) {
+//        Log.d(TAG, ">> accessSuccess >> " + mResponse.data.toString());
+        serverResponse(data);
+        mBaseView.showSuccess(true);
 //        } else {
 //            mBaseView.showServerError(mResponse.errorNum, mResponse.errorMsg);
 //        }

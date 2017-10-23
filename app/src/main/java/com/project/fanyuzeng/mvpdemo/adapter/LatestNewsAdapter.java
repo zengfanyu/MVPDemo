@@ -49,7 +49,7 @@ public class LatestNewsAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.latest_news_title_item, null);
-            holder.title = convertView.findViewById(R.id.id_tv_title);
+            holder.title = (TextView) convertView.findViewById(R.id.id_tv_title);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

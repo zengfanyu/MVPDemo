@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/id_success_content"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/id_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Sohu Serials album"/>
+
+    <com.project.fanyuzeng.mvpdemo.PullLoadRecyclerView
+        android:id="@+id/id_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/id_tip"
+        >
+
+    </com.project.fanyuzeng.mvpdemo.PullLoadRecyclerView>
+
+    <ProgressBar
+        android:id="@+id/id_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/id_error_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@android:color/holo_red_dark"
+        android:text="Not get data"
+        android:textColor="@android:color/black"
+        android:textSize="28sp"
+        android:visibility="gone"/>
+
+</RelativeLayout>
