@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.presenter.IBasePaginationPresenter;
-import com.project.fanyuzeng.mvpdemo.response.BasePeginationParam;
+import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
 import com.project.fanyuzeng.mvpdemo.utils.HttpUtils;
 
 import java.io.IOException;
@@ -15,10 +15,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * Created by fanyuzeng on 2017/10/23.
- * Function:
+ * @author：ZengFanyu
  */
-public class SohuAlbumModel<Param extends BasePeginationParam> implements IBaseModel<Param> {
+public class SohuAlbumModel<Param extends BasePaginationParam> implements IBaseModel<Param> {
     private static final String TAG = "SohuAlbumModel";
     private String url;
     private int method;
@@ -31,7 +30,7 @@ public class SohuAlbumModel<Param extends BasePeginationParam> implements IBaseM
     @Override
     public void sendRequestToServer(Param param) {
         String validUrl = null;
-        if (param != null && !TextUtils.isEmpty(url)) {
+        if (param != null && !TextUtils.isEmpty(url)&&mPaginationPresenter.hasMoreData()) {
             validUrl = getValidUrl(url, param);
             Log.d(TAG, ">> sendRequestToServer >> " + "ValidUrl:" + validUrl);
         }

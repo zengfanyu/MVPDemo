@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,16 +17,16 @@ import com.project.fanyuzeng.mvpdemo.R;
 import com.project.fanyuzeng.mvpdemo.adapter.VideoInfoAdapter;
 import com.project.fanyuzeng.mvpdemo.presenter.AlbumPresenter;
 import com.project.fanyuzeng.mvpdemo.response.Album;
-import com.project.fanyuzeng.mvpdemo.response.BasePeginationParam;
+import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
 import com.project.fanyuzeng.mvpdemo.response.VideoInfo;
 
 import java.util.List;
 
 /**
- * Created by fanyuzeng on 2017/10/23.
+ * @author：ZengFanyu
  * Function:
  */
-public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSerials {
+public class SohuAlbumInfoActivity extends AppCompatActivity implements ISohuSerials {
     private static final String TAG = "SohuAlbumInfoActivity";
     private PullLoadRecyclerView mRecyclerView;
     private Context mContext;
@@ -34,7 +34,7 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
     private TextView mTip;
     private RelativeLayout mContainer;
     private AlbumPresenter mAlbumPresenter;
-    private BasePeginationParam mParam;
+    private BasePaginationParam mParam= new BasePaginationParam(1, 10);
     private VideoInfoAdapter mAdapter;
     Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean mIsFromRefresh = false;
@@ -46,8 +46,6 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
         mContext = this;
 
         mAlbumPresenter = new AlbumPresenter(this, Album.class);
-
-        mParam = new BasePeginationParam(1, 10); //此处值可以有用户输入或者其他途径获得
 
         mContainer = (RelativeLayout) findViewById(R.id.id_success_content);
         mTip = (TextView) findViewById(R.id.id_tip);
@@ -80,7 +78,7 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
     }
 
     @Override
-    public void showMainInfo(List<VideoInfo> albumList) {
+    public void showAlbumMainInfo(List<VideoInfo> albumList) {
         if (mIsFromRefresh) {
             mAdapter.cleanData();
             mIsFromRefresh = false;
@@ -93,9 +91,7 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-
                     mAdapter.notifyDataSetChanged();
-
                 }
             });
 
@@ -155,11 +151,5 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISOHUSer
             }
         });
 
-    }
-
-
-    @Override
-    public boolean hasNextPage() {
-        return false;
     }
 }

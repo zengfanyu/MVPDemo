@@ -8,20 +8,20 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.project.fanyuzeng.mvpdemo.model.IBaseModel;
 import com.project.fanyuzeng.mvpdemo.model.SohuAlbumModel;
-import com.project.fanyuzeng.mvpdemo.response.BasePeginationParam;
-import com.project.fanyuzeng.mvpdemo.view.IBaseListView;
+import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
+import com.project.fanyuzeng.mvpdemo.view.IBaseView;
 
 import java.util.HashMap;
 
 /**
- * Created by fanyuzeng on 2017/10/23.
- * Function:
+ * @author：ZengFanyu
+ * @date：2017/10/20
  */
-public abstract class BasePaginationPresenter<Param extends BasePeginationParam, Data> implements IBasePaginationPresenter<Param> {
+public abstract class BasePaginationPresenter<Param extends BasePaginationParam, Data> implements IBasePaginationPresenter<Param> {
     private static final String TAG = "BasePaginationPresenter";
     private IBaseModel mBaseModel;
-    private IBaseListView mBaseListView;
-    private Param mParam;
+    private IBaseView mBaseListView;
+    protected Param mParam;
     private Class<Data> mClazz;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -33,10 +33,16 @@ public abstract class BasePaginationPresenter<Param extends BasePeginationParam,
      */
     public abstract void serverResponse(Data data);
 
+    /**
+     * 子类中调用，用于确认服务器端是否还有数据
+     *
+     * @return true-还有数据 false-没有数据
+     */
+    public abstract boolean serverHaveMoreData();
 
-    public BasePaginationPresenter(IBaseListView baseListView, Class<Data> Clazz) {
+    public BasePaginationPresenter(IBaseView baseListView, Class<Data> clazz) {
         this.mBaseListView = baseListView;
-        mClazz = Clazz;
+        mClazz = clazz;
         mBaseModel = new SohuAlbumModel(this);
     }
 
@@ -97,5 +103,10 @@ public abstract class BasePaginationPresenter<Param extends BasePeginationParam,
     @Override
     public HashMap<String, String> getParams() {
         return null;
+    }
+
+    @Override
+    public boolean hasMoreData() {
+        return serverHaveMoreData();
     }
 }

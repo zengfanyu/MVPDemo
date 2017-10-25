@@ -1,17 +1,17 @@
 package com.project.fanyuzeng.mvpdemo.response;
 
 /**
- * Created by fanyuzeng on 2017/10/23.
+ * @author：ZengFanyu
  * Function:
  */
-public class BasePeginationParam {
+public class BasePaginationParam {
     private int pageIndex;
     private int pageSize;
 
-    public BasePeginationParam() {
+    public BasePaginationParam() {
     }
 
-    public BasePeginationParam(int pageIndex, int pageSize) {
+    public BasePaginationParam(int pageIndex, int pageSize) {
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }

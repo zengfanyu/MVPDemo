@@ -41,11 +41,11 @@ public class VideoInfoAdapter extends RecyclerView.Adapter<VideoInfoAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         VideoInfo videoInfo = mAlbumList.get(position);
-        holder.mTvAlbumName.setText("片名："+videoInfo.getAlbum_name());
+        holder.mTvAlbumName.setText("片名："+videoInfo.getAlbumName());
         holder.mTvDirector.setText("导演："+videoInfo.getDirector());
-        holder.mTvMainActor.setText("主演："+videoInfo.getMain_actor());
-        holder.mTvPublishTime.setText("更新时间："+videoInfo.getPublish_time());
-        holder.mTvTotalCount.setText("集数："+videoInfo.getTotal_video_count());
+        holder.mTvMainActor.setText("主演："+videoInfo.getMainActor());
+        holder.mTvPublishTime.setText("更新时间："+videoInfo.getPublishTime());
+        holder.mTvTotalCount.setText("集数："+videoInfo.getTotalVideoCount());
     }
 
     @Override

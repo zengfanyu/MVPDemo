@@ -63,7 +63,7 @@ public abstract class BasePresenter<Params, Data> implements IBasePresenter<Para
 
     @Override
     public void cancelRequest() {
-        mBaseModel.cancelRequest();
+        getModel().cancelRequest();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.project.fanyuzeng.mvpdemo.presenter;
 
 /**
- * Created by fanyuzeng on 2017/10/23.
- * Function:在IBasePresenter的基础上扩展的接口，试用于分页加载的情况
+ * @author：ZengFanyu
+ * Function:在IBasePresenter的基础上扩展的接口，适用于分页加载的情况
  */
 public interface IBasePaginationPresenter<Param> extends IBasePresenter<Param> {
     /**
@@ -20,5 +20,10 @@ public interface IBasePaginationPresenter<Param> extends IBasePresenter<Param> {
      */
     void loadingNext();
 
+    /**
+     * 用于判断服务器端是否还有更多的数据
+     * @return true -还有更多数据 - false 没有更多的数据
+     */
+    boolean hasMoreData();
 
 }

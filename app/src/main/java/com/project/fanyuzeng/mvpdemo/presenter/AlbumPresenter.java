@@ -5,17 +5,19 @@ import android.os.Looper;
 
 import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.response.Album;
-import com.project.fanyuzeng.mvpdemo.response.BasePeginationParam;
-import com.project.fanyuzeng.mvpdemo.view.ISOHUSerials;
+import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
+import com.project.fanyuzeng.mvpdemo.view.ISohuSerials;
 
 /**
- * Created by fanyuzeng on 2017/10/23.
+ * @author：ZengFanyu
  * Function:
  */
-public class AlbumPresenter extends BasePaginationPresenter<BasePeginationParam, Album> {
-    private ISOHUSerials mBaseListView;
+public class AlbumPresenter extends BasePaginationPresenter<BasePaginationParam, Album> {
+    private ISohuSerials mBaseListView;
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    public AlbumPresenter(ISOHUSerials baseListView, Class<Album> CLazz) {
+    private int mTotalCount;
+
+    public AlbumPresenter(ISohuSerials baseListView, Class<Album> CLazz) {
         super(baseListView, CLazz);
         this.mBaseListView = baseListView;
         getModel().setRequestMethod(Constants.HTTP_GET_METHOD);
@@ -25,7 +27,7 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePeginationParam,
     @Override
     public void serverResponse(Album album) {
 
-        mBaseListView.showMainInfo(album.getData().getVideos());
+        mBaseListView.showAlbumMainInfo(album.getData().getVideos());
 
         mHandler.post(new Runnable() {
             @Override
@@ -34,5 +36,16 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePeginationParam,
             }
         });
 
+        mTotalCount = album.getData().getCount();
+
+    }
+
+    @Override
+    public boolean serverHaveMoreData() {
+        //此处pageIndex是从1开始的， 实际适用需要注意pageIndex的起始值
+        int pageSize = mParam.getPageSize();
+        int pageIndex = mParam.getPageIndex();
+
+        return (pageIndex * pageSize) <= mTotalCount;
     }
 }
