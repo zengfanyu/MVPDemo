@@ -7,7 +7,7 @@ import okhttp3.Callback;
 import okhttp3.Request;
 
 /**
- * Created by fanyuzeng on 2017/10/20.
+ *@author：ZengFanyu
  * Function:
  */
 public class HttpUtils {
