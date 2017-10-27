@@ -16,6 +16,7 @@ import okhttp3.Request;
  * @date: 2017/10/27 15:21
  * @desc:
  */
+@Deprecated
 public class CommonOkHttpClient {
     private static final int TIME_OUT = 30;
 
@@ -38,11 +39,15 @@ public class CommonOkHttpClient {
         sOkHttpClient = builder.build();
     }
 
-    public static void post(Request request, DisposeDataHandler handler) {
+    /**
+     * 请求服务器数据的方法
+     *
+     * @param request Use {@link com.project.fanyuzeng.mvpdemo.utils.okhttp.request.CommonRequest} to build
+     * @param handler see {@link DisposeDataHandler}  proxy class
+     */
+    public static void requestServerData(Request request, DisposeDataHandler handler) {
         sOkHttpClient.newCall(request).enqueue(new CommonJsonCallback(handler));
     }
 
-    public static void get(Request request, DisposeDataHandler handler) {
-        sOkHttpClient.newCall(request).enqueue(new CommonJsonCallback(handler));
-    }
+
 }

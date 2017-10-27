@@ -1,18 +1,15 @@
 package com.project.fanyuzeng.mvpdemo.model;
 
-import android.text.TextUtils;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.presenter.IBasePaginationPresenter;
 import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
 import com.project.fanyuzeng.mvpdemo.utils.HttpUtils;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import com.project.fanyuzeng.mvpdemo.utils.okhttp.OkHttpManager;
+import com.project.fanyuzeng.mvpdemo.utils.okhttp.exception.OkHttpException;
+import com.project.fanyuzeng.mvpdemo.utils.okhttp.listener.DisposeDataHandler;
+import com.project.fanyuzeng.mvpdemo.utils.okhttp.listener.DisposeDataListener;
 
 /**
  * @author：ZengFanyu
@@ -28,45 +25,21 @@ public class SohuAlbumModel<Param extends BasePaginationParam> implements IBaseM
     }
 
     @Override
-    public void sendRequestToServer(Param param) {
-        String validUrl = null;
-        Log.d(TAG, ">> sendRequestToServer >> " + "has more data ?" + mPaginationPresenter.hasMoreData());
-        if (param != null && !TextUtils.isEmpty(url) && mPaginationPresenter.hasMoreData()) {
-            validUrl = getValidUrl(url, param);
-            Log.d(TAG, ">> sendRequestToServer >> " + "ValidUrl:" + validUrl);
-        }
-
-        if (!TextUtils.isEmpty(validUrl)) {
-            HttpUtils.executeByGet(validUrl, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.d(TAG, ">> onFailure >> ");
-                    e.printStackTrace();
-                    mPaginationPresenter.okHttpError(Constants.URL_ERROR, e.getMessage(), url);
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (!response.isSuccessful()) {
-                        Log.d(TAG, ">> onResponse >> " + "Not successful");
-                        mPaginationPresenter.okHttpError(Constants.SERVER_ERROR, response.message(), url);
-                    }
-
-                    String responseJson = response.body().string();
-                    Log.d(TAG, ">> onResponse >> " + "responseJson:" + responseJson);
-                    mPaginationPresenter.accessSuccess(responseJson);
-
-                }
-            });
-        } else {
-            Log.d(TAG, ">> sendRequestToServer >> " + "Valid Url is empty");
-        }
+    public void sendRequestToServer(@Nullable Param param) {
+        OkHttpManager.getInstance().requestServerData(method, url, mPaginationPresenter.getParams(), new DisposeDataHandler(new DisposeDataListener() {
+            @Override
+            public void onSuccess(Object responseObj) {
+                String responseJson = (String) responseObj;
+                Log.d(TAG, ">> onSuccess >> " + responseJson);
+                mPaginationPresenter.accessSuccess(responseJson);
+            }
+            @Override
+            public void onFailure(OkHttpException exception) {
+                Log.d(TAG, ">> onFailure >> " + exception.getErrorCode());
+                mPaginationPresenter.okHttpError(exception.getErrorCode(), exception.getErrorMsg(), url);
+            }
+        },null));
     }
-
-    private String getValidUrl(String url, Param param) {
-        return String.format(url, param.getPageIndex(), param.getPageSize());
-    }
-
 
     @Override
     public void setRequestUrl(String url) {

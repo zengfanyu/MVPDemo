@@ -2,15 +2,12 @@ package com.project.fanyuzeng.mvpdemo.utils.okhttp.response;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.project.fanyuzeng.mvpdemo.utils.okhttp.exception.OkHttpException;
 import com.project.fanyuzeng.mvpdemo.utils.okhttp.listener.DisposeDataHandler;
-import com.project.fanyuzeng.mvpdemo.utils.okhttp.listener.DisposeDataListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -24,52 +21,47 @@ import okhttp3.Response;
  * @desc:
  */
 public class CommonJsonCallback implements Callback {
-    private static final String ERROR_MSG = "emsg";
-    private static final String EMPTY_MSG = "";
-    /**
-     * 有返回则对于http请求来说是成功的，但还有可能是业务逻辑上的错误
-     */
-    private static final String RESULT_CODE = "ecode";
-    private static final int RESULT_CODE_VALUE = 0;
+    private static final String TAG = "CommonJsonCallback";
+    private static final String MSG_RESULT_EMPTY = "request could not be ececuted";
+    private static final String MSG_JSON_EMPTY = "json is empty or null";
+    private static final String MSG_RETURN_CODE = "http return code is not [200,300)";
+
 
     private static final int NETWORK_ERROR = -1;
     private static final int JSON_ERROR = -2;
-    private static final int OTHER_ERROR = -3;
 
-    private DisposeDataListener mDisposeDataListener;
-    private Class<?> mClass;
     private Handler mDeliveryHandler = new Handler(Looper.getMainLooper());
 
     private Gson mGson = new Gson();
 
+    private DisposeDataHandler mDisposeDataHandler;
+
 
     public CommonJsonCallback(DisposeDataHandler dataHandler) {
-        mDisposeDataListener = dataHandler.mListener;
-        mClass = dataHandler.mClass;
+        mDisposeDataHandler = dataHandler;
     }
 
 
     @Override
-    public void onFailure(Call call, final IOException e) {
+    public void onFailure(@NonNull Call call, @NonNull final IOException e) {
         mDeliveryHandler.post(new Runnable() {
             @Override
             public void run() {
-                mDisposeDataListener.onFailure(e);
+                mDisposeDataHandler.onFailure(new OkHttpException(NETWORK_ERROR, MSG_RESULT_EMPTY + e.getMessage()));
             }
         });
     }
 
     @Override
-    public void onResponse(Call call, final Response response) throws IOException {
+    public void onResponse(@NonNull Call call, @NonNull final Response response) throws IOException {
         if (!response.isSuccessful()) {
             mDeliveryHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mDisposeDataListener.onFailure(response.message());
+                    mDisposeDataHandler.onFailure(new OkHttpException(NETWORK_ERROR, MSG_RETURN_CODE + response.message()));
                 }
             });
         }
-
         final String resultJson = response.body().string();
         mDeliveryHandler.post(new Runnable() {
             @Override
@@ -80,35 +72,21 @@ public class CommonJsonCallback implements Callback {
     }
 
     private void handleResponse(String resultJson) {
-        if (!TextUtils.isEmpty(resultJson)) {
-            mDisposeDataListener.onFailure(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
+        if (TextUtils.isEmpty(resultJson)) {
+            mDisposeDataHandler.onFailure(new OkHttpException(NETWORK_ERROR, MSG_JSON_EMPTY));
             return;
         }
-
-        try {
-            JSONObject resultObj = new JSONObject(resultJson);
-            // TODO: 2017/10/27 修改此处的条件与真实情况相符
-            if (resultObj.has(RESULT_CODE)) {
-                if (resultObj.optInt(RESULT_CODE) == RESULT_CODE_VALUE) {
-                    if (mClass == null) {
-                        mDisposeDataListener.onSuccess(resultObj);
-                    } else {
-
-                        Object mappedDataType = mGson.fromJson(resultJson, mClass);
-
-                        if (mappedDataType == null) {
-                            mDisposeDataListener.onFailure(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
-                        } else {
-                            mDisposeDataListener.onSuccess(mappedDataType);
-                        }
-                    }
-
-                } else {
-                    mDisposeDataListener.onFailure(new OkHttpException(JSON_ERROR, EMPTY_MSG));
-                }
+        if (mDisposeDataHandler.getClassType() == null) {
+            mDisposeDataHandler.onSuccess(resultJson);
+        } else {
+            Object mappedDataType = mGson.fromJson(resultJson, mDisposeDataHandler.getClassType());
+            if (mappedDataType == null) {
+                mDisposeDataHandler.onFailure(new OkHttpException(JSON_ERROR, MSG_JSON_EMPTY));
+            } else {
+                mDisposeDataHandler.onSuccess(mappedDataType);
             }
-        } catch (JSONException e) {
-            mDisposeDataListener.onFailure(new OkHttpException(OTHER_ERROR, e.getMessage()));
         }
+
+
     }
 }

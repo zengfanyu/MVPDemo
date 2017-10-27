@@ -2,6 +2,7 @@ package com.project.fanyuzeng.mvpdemo.utils.okhttp.request;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.Map;
 
@@ -14,11 +15,12 @@ import okhttp3.Request;
  * @desc: response for build various kind of {@link okhttp3.Request} include Get Post upload etc.
  */
 public class CommonRequest {
+    private static final String TAG = "CommonRequest";
     /**
      * create a Get request
      *
-     * @param baseUrl
-     * @param params
+     * @param baseUrl base url
+     * @param params see {@link RequestParams}
      * @return {@link Request}
      * @created at 2017/10/27 14:39
      */
@@ -29,6 +31,8 @@ public class CommonRequest {
             for (Map.Entry<String, String> entry : params.getUrlParams().entrySet()) {
                 urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
             }
+
+            Log.d(TAG,">> createGetRequest >> " + urlBuilder.toString());
         }
         return new Request.Builder().get().url(urlBuilder.substring(0, urlBuilder.length() - 1)).build();
     }
@@ -36,8 +40,8 @@ public class CommonRequest {
     /**
      * create a post request
      *
-     * @param baseUrl
-     * @param params
+     * @param baseUrl base url
+     * @param params see {@link RequestParams}
      * @return {@link Request}
      * @created at 2017/10/27 14:39
      */

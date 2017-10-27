@@ -34,11 +34,18 @@ public abstract class BasePaginationPresenter<Param extends BasePaginationParam,
     public abstract void serverResponse(Data data);
 
     /**
-     * 子类中调用，用于确认服务器端是否还有数据
+     * 子类实现，用于确认服务器端是否还有数据
      *
      * @return true-还有数据 false-没有数据
      */
     public abstract boolean serverHaveMoreData();
+
+    /**
+     * 子类实现,用于返回请求服务器的url当中的参数
+     *
+     * @return HashMap<String,String> url 中的 kay value 对
+     */
+    public abstract HashMap<String, String> getHttpRequestParams();
 
     public BasePaginationPresenter(IBaseView baseListView, Class<Data> clazz) {
         this.mBaseListView = baseListView;
@@ -102,7 +109,7 @@ public abstract class BasePaginationPresenter<Param extends BasePaginationParam,
 
     @Override
     public HashMap<String, String> getParams() {
-        return null;
+        return getHttpRequestParams();
     }
 
     @Override

@@ -9,6 +9,8 @@ import com.project.fanyuzeng.mvpdemo.response.Album;
 import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
 import com.project.fanyuzeng.mvpdemo.view.ISohuSerials;
 
+import java.util.HashMap;
+
 /**
  * @author：ZengFanyu
  * Function:
@@ -19,11 +21,11 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePaginationParam,
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private int mTotalCount=-1;
 
-    public AlbumPresenter(ISohuSerials baseListView, Class<Album> CLazz) {
-        super(baseListView, CLazz);
+    public AlbumPresenter(ISohuSerials baseListView, Class<Album> aClass) {
+        super(baseListView, aClass);
         this.mBaseListView = baseListView;
         getModel().setRequestMethod(Constants.HTTP_GET_METHOD);
-        getModel().setRequestUrl(Constants.SOHU_SERIALS_URL);
+        getModel().setRequestUrl(Constants.SOHU_SERIALS_URL_BASE);
     }
 
     @Override
@@ -56,4 +58,21 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePaginationParam,
         }
         return (pageIndex * pageSize) <= mTotalCount;
     }
+
+    @Override
+    public HashMap<String, String> getHttpRequestParams() {
+        HashMap<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("cid", "2");
+        paramsMap.put("o", "1");
+        paramsMap.put("plat", "6");
+        paramsMap.put("poid", "1");
+        paramsMap.put("api_key", "9854b2afa779e1a6bff1962447a09dbd");
+        paramsMap.put("sver", "6.2.0");
+        paramsMap.put("sysver", "4.4.2");
+        paramsMap.put("partner", "47");
+        paramsMap.put("page", String.valueOf(mParam.getPageIndex()));
+        paramsMap.put("page_size", String.valueOf(mParam.getPageSize()));
+        return paramsMap;
+    }
+
 }

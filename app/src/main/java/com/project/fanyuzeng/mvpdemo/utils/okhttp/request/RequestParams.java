@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author:fanyuzeng
  * @date: 2017/10/27 13:55
- * @desc:
+ * @desc: 封装url中的参数
  */
 public class RequestParams {
     /**
