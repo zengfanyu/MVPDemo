@@ -30,7 +30,8 @@ public class SohuAlbumModel<Param extends BasePaginationParam> implements IBaseM
     @Override
     public void sendRequestToServer(Param param) {
         String validUrl = null;
-        if (param != null && !TextUtils.isEmpty(url)&&mPaginationPresenter.hasMoreData()) {
+        Log.d(TAG, ">> sendRequestToServer >> " + "has more data ?" + mPaginationPresenter.hasMoreData());
+        if (param != null && !TextUtils.isEmpty(url) && mPaginationPresenter.hasMoreData()) {
             validUrl = getValidUrl(url, param);
             Log.d(TAG, ">> sendRequestToServer >> " + "ValidUrl:" + validUrl);
         }

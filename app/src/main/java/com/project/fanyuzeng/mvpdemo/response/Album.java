@@ -49,6 +49,20 @@ public class Album {
             this.videos = videos;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "count=" + count +
+                    ", videos=" + videos +
+                    '}';
+        }
+    }
 
+    @Override
+    public String toString() {
+        return "Album{" +
+                "statusText='" + statusText + '\'' +
+                ", data=" + data +
+                '}';
     }
 }
