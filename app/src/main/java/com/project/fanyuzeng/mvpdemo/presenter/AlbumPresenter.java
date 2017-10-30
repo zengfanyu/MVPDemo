@@ -51,12 +51,9 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePaginationParam,
         //此处pageIndex是从1开始的， 实际适用需要注意pageIndex的起始值
         int pageSize = mParam.getPageSize();
         int pageIndex = mParam.getPageIndex();
-        Log.d(TAG,">> serverHaveMoreData >> " + "pageSize："+pageSize+"pageIndex:"+pageIndex+"totalCount:"+mTotalCount);
-        if (mTotalCount == -1){
-            //第一次需要返回true 才能进到 serverResponse 方法中去初始化 mTotalCount 值
-            return true;
-        }
-        return (pageIndex * pageSize) <= mTotalCount;
+        Log.d(TAG, ">> serverHaveMoreData >> " + "pageSize：" + pageSize + "pageIndex:" + pageIndex + "totalCount:" + mTotalCount);
+        //第一次需要返回true 才能进到 serverResponse 方法中去初始化 mTotalCount 值
+        return mTotalCount == -1 || (pageIndex * pageSize) <= mTotalCount;
     }
 
     @Override

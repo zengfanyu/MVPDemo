@@ -43,7 +43,7 @@ public abstract class BasePresenter<Params, Data> implements IBasePresenter<Para
     public void requestServer(@Nullable Params param) {
         this.params = param;
         mBaseView.showProgress(true);
-        getModel().sendRequestToServer(param);
+        getModel().sendRequestToServer();
     }
 
     @Override

@@ -73,7 +73,7 @@ public abstract class BasePaginationPresenter<Param extends BasePaginationParam,
         mBaseListView.showProgress(true);
         mParam = param;
         Log.d(TAG, ">> requestServer >> ");
-        getModel().sendRequestToServer(param);
+        getModel().sendRequestToServer();
     }
 
     @Override

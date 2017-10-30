@@ -1,10 +1,8 @@
 package com.project.fanyuzeng.mvpdemo.model;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.project.fanyuzeng.mvpdemo.presenter.IBasePaginationPresenter;
-import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
 import com.project.fanyuzeng.mvpdemo.utils.HttpUtils;
 import com.project.fanyuzeng.mvpdemo.utils.okhttp.OkHttpManager;
 import com.project.fanyuzeng.mvpdemo.utils.okhttp.exception.OkHttpException;
@@ -14,7 +12,7 @@ import com.project.fanyuzeng.mvpdemo.utils.okhttp.listener.DisposeDataListener;
 /**
  * @author：ZengFanyu
  */
-public class SohuAlbumModel<Param extends BasePaginationParam> implements IBaseModel<Param> {
+public class SohuAlbumModel implements IBaseModel {
     private static final String TAG = "SohuAlbumModel";
     private String url;
     private int method;
@@ -25,7 +23,7 @@ public class SohuAlbumModel<Param extends BasePaginationParam> implements IBaseM
     }
 
     @Override
-    public void sendRequestToServer(@Nullable Param param) {
+    public void sendRequestToServer() {
         OkHttpManager.getInstance().requestServerData(method, url, mPaginationPresenter.getParams(), new DisposeDataHandler(new DisposeDataListener() {
             @Override
             public void onSuccess(Object responseObj) {

@@ -1,6 +1,5 @@
 package com.project.fanyuzeng.mvpdemo.model;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,7 +17,7 @@ import okhttp3.Response;
  * Created by fanyuzeng on 2017/10/20.
  * Function:
  */
-public class LatestNewsModel<Param> implements IBaseModel<Param> {
+public class LatestNewsModel implements IBaseModel {
     private static final String TAG = "ReqLaNewModelFromBase";
     private String url;
     //默认为Get方式 ，根据这个参数来区别不同方式的请求
@@ -30,7 +29,7 @@ public class LatestNewsModel<Param> implements IBaseModel<Param> {
     }
 
     @Override
-    public void sendRequestToServer(@Nullable Param param) {
+    public void sendRequestToServer() {
 
         HttpUtils.executeByGet(url, new Callback() {
             @Override

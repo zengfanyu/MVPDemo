@@ -1,21 +1,18 @@
 package com.project.fanyuzeng.mvpdemo.model;
 
-import android.support.annotation.Nullable;
-
 /**
  * @author：ZengFanyu
  * Function:
  */
-public interface IBaseModel<Param> {
+public interface IBaseModel {
 
     /**
      * 向服务器请求数据的方法
      *
      * @author zfy
-     * @param param 请求服务器需要的参数 不是每个请求都需要参数
      * @created at 2017/10/21/021 14:48
      */
-    void sendRequestToServer(@Nullable Param param);
+    void sendRequestToServer();
 
     /**
      * 设置请求url地址的接口
