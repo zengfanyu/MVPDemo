@@ -60,6 +60,10 @@ public class LatestNewsAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void clear() {
+        mTitleList.clear();
+    }
+
     static class ViewHolder {
         TextView title;
     }

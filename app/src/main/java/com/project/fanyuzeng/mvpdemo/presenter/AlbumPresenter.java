@@ -4,10 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.project.fanyuzeng.mvpdemo.BaseMvpActivity;
 import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.response.Album;
 import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
-import com.project.fanyuzeng.mvpdemo.view.ISohuSerials;
 
 import java.util.HashMap;
 
@@ -17,11 +17,11 @@ import java.util.HashMap;
  */
 public class AlbumPresenter extends BasePaginationPresenter<BasePaginationParam, Album> {
     private static final String TAG = "AlbumPresenter";
-    private ISohuSerials mBaseListView;
+    private BaseMvpActivity mBaseListView;
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private int mTotalCount=-1;
 
-    public AlbumPresenter(ISohuSerials baseListView, Class<Album> aClass) {
+    public AlbumPresenter(BaseMvpActivity baseListView, Class<Album> aClass) {
         super(baseListView, aClass);
         this.mBaseListView = baseListView;
         getModel().setRequestMethod(Constants.HTTP_GET_METHOD);
@@ -33,7 +33,7 @@ public class AlbumPresenter extends BasePaginationPresenter<BasePaginationParam,
 
         Log.d(TAG,">> serverResponse >> " + album.toString());
 
-        mBaseListView.showAlbumMainInfo(album.getData().getVideos());
+        mBaseListView.showDataFromPresenter(album.getData().getVideos());
 
         mHandler.post(new Runnable() {
             @Override

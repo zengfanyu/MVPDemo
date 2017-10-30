@@ -1,58 +1,50 @@
 package com.project.fanyuzeng.mvpdemo.view;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
 
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.project.fanyuzeng.mvpdemo.PullLoadRecyclerView;
-import com.project.fanyuzeng.mvpdemo.R;
+import com.project.fanyuzeng.mvpdemo.BaseMvpActivity;
 import com.project.fanyuzeng.mvpdemo.adapter.VideoInfoAdapter;
 import com.project.fanyuzeng.mvpdemo.presenter.AlbumPresenter;
 import com.project.fanyuzeng.mvpdemo.response.Album;
 import com.project.fanyuzeng.mvpdemo.response.BasePaginationParam;
 import com.project.fanyuzeng.mvpdemo.response.VideoInfo;
+import com.project.fanyuzeng.mvpdemo.widget.PullLoadRecyclerView;
 
 import java.util.List;
 
 /**
- * @author：ZengFanyu
- * Function:
+ * @author：ZengFanyu Function:
  */
-public class SohuAlbumInfoActivity extends AppCompatActivity implements ISohuSerials {
+public class SohuAlbumInfoActivity extends BaseMvpActivity {
     private static final String TAG = "SohuAlbumInfoActivity";
     private PullLoadRecyclerView mRecyclerView;
-    private Context mContext;
-    private ProgressBar mProgressBar;
-    private TextView mTip;
-    private RelativeLayout mContainer;
     private AlbumPresenter mAlbumPresenter;
-    private BasePaginationParam mParam= new BasePaginationParam(1, 10);
+    private BasePaginationParam mParam = new BasePaginationParam(1, 10);
     private VideoInfoAdapter mAdapter;
-    Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean mIsFromRefresh = false;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album_view);
-        mContext = this;
+    protected void beforeInitViews() {
+        mRecyclerView = new PullLoadRecyclerView(this);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        mContentContainer.addView(mRecyclerView, lp);
+
+//        View contentView = LayoutInflater.from(this).inflate(R.layout.activity_album_view, null);
+//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+//        mContentContainer.addView(contentView, lp);
+    }
+
+    @Override
+    protected void initViews() {
+        setSupportActionBar(); //表示当前页面支持ActionBar
+        setTitle(TAG);
+        setSupportArrowActionBar(true);
 
         mAlbumPresenter = new AlbumPresenter(this, Album.class);
 
-        mContainer = (RelativeLayout) findViewById(R.id.id_success_content);
-        mTip = (TextView) findViewById(R.id.id_tip);
-        mProgressBar = (ProgressBar) findViewById(R.id.id_progress_bar);
+        mTipView.setText(TAG);
 
-
-        mRecyclerView = (PullLoadRecyclerView) findViewById(R.id.id_recycler_view);
+//        mRecyclerView = (PullLoadRecyclerView) findViewById(R.id.id_recycler_view);
         mRecyclerView.setLinearLayout();
         mAdapter = new VideoInfoAdapter(mContext);
         mAlbumPresenter.requestServer(mParam);
@@ -73,12 +65,16 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISohuSer
                 mRecyclerView.setLoadMoreCompleted();
             }
         });
+    }
 
+    @Override
+    protected void afterInitViews() {
 
     }
 
     @Override
-    public void showAlbumMainInfo(List<VideoInfo> albumList) {
+    public void showDataFromPresenter(Object[] data) {
+        List<VideoInfo> albumList = (List<VideoInfo>) data[0];
         if (mIsFromRefresh) {
             mAdapter.cleanData();
             mIsFromRefresh = false;
@@ -92,64 +88,10 @@ public class SohuAlbumInfoActivity extends AppCompatActivity implements ISohuSer
                 @Override
                 public void run() {
                     mAdapter.notifyDataSetChanged();
+                    mTipView.setText(TAG);
                 }
             });
 
         }
-    }
-
-    @Override
-    public void showProgress(final boolean isShow) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (isShow) {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                } else {
-                    mProgressBar.setVisibility(View.GONE);
-                }
-            }
-        });
-
-
-    }
-
-    @Override
-    public void showOkHttpError(final int errorCode, final String errorDesc, final String errorUrl) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mTip.setText("http err:" + "errCode:" + errorCode + ",errDesc:" + errorDesc + ",errUrl:" + errorUrl);
-
-            }
-        });
-    }
-
-    @Override
-    public void showServerError(final int errorCode, final String errorDesc) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mTip.setText("server err:" + "errCode:" + errorCode + ",errDesc:" + errorDesc);
-
-            }
-        });
-    }
-
-    @Override
-    public void showSuccess(final boolean isSuccess) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (isSuccess) {
-                    mContainer.setBackgroundResource(android.R.color.white);
-                    mTip.setText("Sohu Serials album");
-
-                } else {
-                    mContainer.setBackgroundResource(R.color.colorAccent);
-                }
-            }
-        });
-
     }
 }

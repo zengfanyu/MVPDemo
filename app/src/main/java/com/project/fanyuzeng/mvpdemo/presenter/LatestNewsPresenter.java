@@ -5,9 +5,9 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.project.fanyuzeng.mvpdemo.BaseMvpActivity;
 import com.project.fanyuzeng.mvpdemo.Constants;
 import com.project.fanyuzeng.mvpdemo.response.LatestNews;
-import com.project.fanyuzeng.mvpdemo.view.ILatestNewsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class LatestNewsPresenter extends BasePresenter<Nullable, LatestNews> {
     private static final String TAG = "LatestNewsPresenter";
-    private ILatestNewsView mBaseView;
+    private BaseMvpActivity mBaseView;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public LatestNewsPresenter(ILatestNewsView baseView, Class<LatestNews> clazz) {
+    public LatestNewsPresenter(BaseMvpActivity baseView, Class<LatestNews> clazz) {
         super(baseView, clazz);
         mBaseView = baseView;
         getModel().setRequestUrl(Constants.LATEST_NEWS);
@@ -41,7 +41,7 @@ public class LatestNewsPresenter extends BasePresenter<Nullable, LatestNews> {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mBaseView.showLatestViewTitle(titles);
+                        mBaseView.showDataFromPresenter(titles);
                         mBaseView.showProgress(false);
 
                     }

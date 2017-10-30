@@ -4,7 +4,7 @@ package com.project.fanyuzeng.mvpdemo.view;
  * Created by fanyuzeng on 2017/10/20.
  * @author : ZengFanyu
  */
-public interface IBaseView {
+public interface IBaseView<Data> {
     /**
      * 进行耗时操作时的用户友好交互接口，比如显示ProgressBar
      *
@@ -43,5 +43,12 @@ public interface IBaseView {
      * @created at 2017/10/21/021 14:15
      */
     void showSuccess(boolean isSuccess);
+
+    /**
+     * 显示presenter层处理好之后的数据
+     * @param data data
+     */
+    void showDataFromPresenter(Data...data);
+
 
 }

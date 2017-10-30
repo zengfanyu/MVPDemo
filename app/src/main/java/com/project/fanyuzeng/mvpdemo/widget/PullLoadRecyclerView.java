@@ -1,4 +1,4 @@
-package com.project.fanyuzeng.mvpdemo;
+package com.project.fanyuzeng.mvpdemo.widget;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.project.fanyuzeng.mvpdemo.R;
 
 
 /**

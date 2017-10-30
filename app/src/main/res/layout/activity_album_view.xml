@@ -4,29 +4,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/id_tip"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Sohu Serials album"/>
-
-    <com.project.fanyuzeng.mvpdemo.PullLoadRecyclerView
+    <com.project.fanyuzeng.mvpdemo.widget.PullLoadRecyclerView
         android:id="@+id/id_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/id_tip"
         >
 
-    </com.project.fanyuzeng.mvpdemo.PullLoadRecyclerView>
+    </com.project.fanyuzeng.mvpdemo.widget.PullLoadRecyclerView>
 
-    <ProgressBar
-        android:id="@+id/id_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
 
 </RelativeLayout>
