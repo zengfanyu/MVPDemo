@@ -18,24 +18,25 @@ import java.util.List;
  * @author ZengFanyu on 2017/10/20.
  *         Function:
  */
-public class LatestNewsTitleActivity extends BaseMvpActivity {
+public class LatestNewsTitleActivity extends BaseMvpActivity<List<String>> {
     private ListView mListView;
     private LatestNewsPresenter mBasePresenter;
     LatestNewsAdapter mAdapter;
+    private View mContentView;
 
     @Override
     protected void beforeInitViews() {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.activity_latest_news, null);
+        mContentView = LayoutInflater.from(this).inflate(R.layout.activity_latest_news, null);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        mContentContainer.addView(contentView, lp);
+        mContentContainer.addView(mContentView, lp);
     }
 
     @Override
     protected void initViews() {
         mBasePresenter = new LatestNewsPresenter(this, LatestNews.class);
         mTipView.setText(LatestNews.class.getSimpleName());
-        mListView = bindViewId(R.id.id_list_view);
-        Button btnLatestNews = bindViewId(R.id.id_btn_latest_news);
+        mListView = (ListView) mContentView.findViewById(R.id.id_list_view);
+        Button btnLatestNews = (Button) mContentView.findViewById(R.id.id_btn_latest_news);
         btnLatestNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +52,7 @@ public class LatestNewsTitleActivity extends BaseMvpActivity {
     }
 
     @Override
-    public void showDataFromPresenter(Object[] data) {
-        List<String> titles = (List<String>) data[0];
-
-
+    public void showDataFromPresenter(List<String> titles) {
         if (mAdapter != null) {
             mAdapter.clear();
             mAdapter = null;

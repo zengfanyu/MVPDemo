@@ -7,8 +7,7 @@
     <com.project.fanyuzeng.mvpdemo.widget.PullLoadRecyclerView
         android:id="@+id/id_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
     </com.project.fanyuzeng.mvpdemo.widget.PullLoadRecyclerView>
 

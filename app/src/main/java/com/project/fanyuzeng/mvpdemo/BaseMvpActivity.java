@@ -21,7 +21,7 @@ import com.project.fanyuzeng.mvpdemo.view.IBaseView;
  * @date: 2017/10/30 13:50
  * @desc:
  */
-public abstract class BaseMvpActivity extends AppCompatActivity implements IBaseView {
+public abstract class BaseMvpActivity<Data> extends AppCompatActivity implements IBaseView<Data> {
     private static final String TAG = "BaseMvpActivity";
     protected Toolbar mToolbar;
     protected ProgressBar mProgressBar;

@@ -4,7 +4,7 @@ package com.project.fanyuzeng.mvpdemo.view;
  * Created by fanyuzeng on 2017/10/20.
  * @author : ZengFanyu
  */
-public interface IBaseView<Data> {
+public interface IBaseView<Data> {//若一个页面中存在多种类型的数据,则在此处添加泛型
     /**
      * 进行耗时操作时的用户友好交互接口，比如显示ProgressBar
      *
@@ -48,7 +48,7 @@ public interface IBaseView<Data> {
      * 显示presenter层处理好之后的数据
      * @param data data
      */
-    void showDataFromPresenter(Data...data);
+    void showDataFromPresenter(Data data);
 
 
 }

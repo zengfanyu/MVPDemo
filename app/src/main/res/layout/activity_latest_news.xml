@@ -12,11 +12,11 @@
     </ListView>
 
     <Button
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/id_btn_latest_news"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="get latest News title"/>
 
 </RelativeLayout>

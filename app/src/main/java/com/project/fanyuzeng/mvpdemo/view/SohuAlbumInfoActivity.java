@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author：ZengFanyu Function:
  */
-public class SohuAlbumInfoActivity extends BaseMvpActivity {
+public class SohuAlbumInfoActivity extends BaseMvpActivity<List<VideoInfo>> {
     private static final String TAG = "SohuAlbumInfoActivity";
     private PullLoadRecyclerView mRecyclerView;
     private AlbumPresenter mAlbumPresenter;
@@ -73,8 +73,8 @@ public class SohuAlbumInfoActivity extends BaseMvpActivity {
     }
 
     @Override
-    public void showDataFromPresenter(Object[] data) {
-        List<VideoInfo> albumList = (List<VideoInfo>) data[0];
+    public void showDataFromPresenter(List<VideoInfo> albumList) {
+
         if (mIsFromRefresh) {
             mAdapter.cleanData();
             mIsFromRefresh = false;
