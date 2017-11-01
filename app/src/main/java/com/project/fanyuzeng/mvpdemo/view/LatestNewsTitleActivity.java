@@ -15,8 +15,7 @@ import com.project.fanyuzeng.mvpdemo.response.LatestNews;
 import java.util.List;
 
 /**
- * @author ZengFanyu on 2017/10/20.
- *         Function:
+ * @author ZengFanyu
  */
 public class LatestNewsTitleActivity extends BaseMvpActivity<List<String>> {
     private ListView mListView;

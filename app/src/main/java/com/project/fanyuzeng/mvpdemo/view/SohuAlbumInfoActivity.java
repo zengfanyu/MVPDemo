@@ -13,7 +13,8 @@ import com.project.fanyuzeng.mvpdemo.widget.PullLoadRecyclerView;
 import java.util.List;
 
 /**
- * @author：ZengFanyu Function:
+ * @author：ZengFanyu
+ * Function:
  */
 public class SohuAlbumInfoActivity extends BaseMvpActivity<List<VideoInfo>> {
     private static final String TAG = "SohuAlbumInfoActivity";
@@ -22,6 +23,7 @@ public class SohuAlbumInfoActivity extends BaseMvpActivity<List<VideoInfo>> {
     private BasePaginationParam mParam = new BasePaginationParam(1, 10);
     private VideoInfoAdapter mAdapter;
     private boolean mIsFromRefresh = false;
+//    private View mContentView;
 
     @Override
     protected void beforeInitViews() {
@@ -44,7 +46,7 @@ public class SohuAlbumInfoActivity extends BaseMvpActivity<List<VideoInfo>> {
 
         mTipView.setText(TAG);
 
-//        mRecyclerView = (PullLoadRecyclerView) findViewById(R.id.id_recycler_view);
+//        mRecyclerView = (PullLoadRecyclerView)mContentView.findViewById(R.id.id_recycler_view);
         mRecyclerView.setLinearLayout();
         mAdapter = new VideoInfoAdapter(mContext);
         mAlbumPresenter.requestServer(mParam);
