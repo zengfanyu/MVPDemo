@@ -23,8 +23,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Button btnDemo1 = (Button) findViewById(R.id.id_btn_demo1);
         Button btnDemo2 = (Button) findViewById(R.id.id_btn_demo2);
+        Button retrofitBtn = (Button) findViewById(R.id.id_btn_retrofit);
         btnDemo1.setOnClickListener(this);
         btnDemo2.setOnClickListener(this);
+        retrofitBtn.setOnClickListener(this);
 
     }
 
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.id_btn_demo2:
                 intent = new Intent(this, SohuAlbumInfoActivity.class);
                 break;
+            case R.id.id_btn_retrofit:
+                intent=new Intent(this,RetrofitTestActivity.class);
             default:
                 break;
 

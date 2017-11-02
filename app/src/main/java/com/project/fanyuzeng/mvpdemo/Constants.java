@@ -21,4 +21,6 @@ public class Constants {
     public static final int HTTP_POST_METHOD = 2;
     public static final int HTTP_TIME_OUT=30;
 
+    public static final String RETROFIT_SOHU_BASE_URL="http://api.tv.sohu.com";
+
 }
