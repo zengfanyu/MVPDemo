@@ -6,6 +6,6 @@
 [Android 当中的 MVP 模式（三）基于分页列表的封装](http://zengfanyu.top/2017/10/25/MVP3/)<p>
 [Android 当中的 MVP 模式（四）插曲-封装 OkHttp](http://zengfanyu.top/2017/10/27/MVP4/)<p>
 [Android 当中的 MVP 模式（五）封装之后的 OkHttp 工具在 Model 层的使用](http://zengfanyu.top/2017/11/02/MVP5/)<p>
-[Android 当中的 MVP 模式（六）View 层 Activity 的基类--- BaseMvpActivity 的封装](http://zengfanyu.top/2017/11/03/MVP6/)
+[Android 当中的 MVP 模式（六）View 层 Activity 的基类--- BaseMvpActivity 的封装](http://zengfanyu.top/2017/11/03/MVP6/)<p>
 [Android当中的MVP模式（七）终篇---关于对MVP模式中代码臃肿问题的思考](http://zengfanyu.top/2017/11/05/MVP7/)
   
